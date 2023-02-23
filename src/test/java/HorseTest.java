@@ -2,8 +2,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -109,13 +109,13 @@ public class HorseTest {
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {0.55})
-    void move_correctDistanceCalculationsExpected(double argument) {
+    @CsvSource({"0.2, 20", "0.8, 32"})
+    void move_correctDistanceCalculationsExpected(double argument, double result) {
         try (MockedStatic<Horse> horseClass = Mockito.mockStatic(Horse.class)) {
             horseClass.when(() -> Horse.getRandomDouble(0.2, 0.9)).thenReturn(argument);
-            Horse horse = new  Horse("Horse", 20);
+            Horse horse = new  Horse("Horse", 20, 16);
             horse.move();
-            Assertions.assertEquals(11, horse.getDistance());
+            Assertions.assertEquals(result, horse.getDistance());
         }
     }
 }
