@@ -9,11 +9,11 @@ import java.util.ArrayList;
 @ExtendWith(MockitoExtension.class)
 public class HippodromeTest {
     @Test
-    void nullHorses() {
+    void constructor_nullHorsesProvided_exceptionExpected() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new Hippodrome(null));
     }
     @Test
-    void nullHorsesMessage() {
+    void constructor_nullHorsesProvided_correctExceptionMessageExpected() {
         try {
             new Hippodrome(null);
         } catch (IllegalArgumentException e) {
@@ -21,12 +21,12 @@ public class HippodromeTest {
         }
     }
     @Test
-    void emptyHorses() {
+    void constructor_emptyHorsesProvided_exceptionExpected() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new Hippodrome(new ArrayList<>()));
     }
 
     @Test
-    void emptyHorsesMessage() {
+    void constructor_emptyHorsesProvided_correctExceptionMessageExpected() {
         try {
             new Hippodrome(new ArrayList<>());
         } catch (IllegalArgumentException e) {
@@ -34,7 +34,7 @@ public class HippodromeTest {
         }
     }
     @Test
-    void getHorses(){
+    void getHorses_listOf30HorsesProvided_sameListWithTheSameHorsesExpected(){
         ArrayList<Horse> horses = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
             horses.add(new Horse("Horse", 20));
@@ -43,7 +43,7 @@ public class HippodromeTest {
         Assertions.assertIterableEquals(horses, hippodrome.getHorses());
     }
     @Test
-    void moveInvokedForEachHorse() {
+    void move_invokedMoveMethodForEachHorseExpected() {
         ArrayList<Horse> horses = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             horses.add(Mockito.mock(Horse.class));
@@ -53,7 +53,7 @@ public class HippodromeTest {
         horses.forEach((horseMock) -> Mockito.verify(horseMock).move());
     }
     @Test
-    void getWinner() {
+    void getWinner_theHorseWithTheBiggestDistanceExpected() {
         ArrayList<Horse> horses = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             horses.add(Mockito.mock(Horse.class));

@@ -6,7 +6,7 @@ public class MainTest {
     @Test
     @Timeout(22)
     @Disabled
-    void mainTimeout() {
+    void main_timeout() {
         String[] args = new String[]{};
         try {
             Main.main(args);

@@ -18,11 +18,11 @@ public class HorseTest {
         return Stream.of("", " ", " ");
     }
     @Test
-    void horseWithoutNameException() {
+    void constructor_nullNameProvided_exceptionExpected() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new Horse(null, 20));
     }
     @Test
-    void horseWithoutNameExceptionMessage() {
+    void constructor_nullNameProvided_correctExceptionMessageExpected() {
         try {
             new Horse(null, 20);
         } catch (IllegalArgumentException e) {
@@ -31,12 +31,12 @@ public class HorseTest {
     }
     @ParameterizedTest
     @MethodSource("argsProviderFactory")
-    void horseWithIncorrectNameException(String wrongName) {
+    void constructor_incorrectNameProvided_exceptionExpected(String wrongName) {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new Horse(wrongName, 20));
     }
     @ParameterizedTest
     @MethodSource("argsProviderFactory")
-    void horseWithIncorrectNameExceptionMessage(String wrongName) {
+    void constructor_incorrectNameProvided_correctExceptionMessageExpected(String wrongName) {
         try {
             new Horse(wrongName, 20);
         } catch (IllegalArgumentException e) {
@@ -44,33 +44,47 @@ public class HorseTest {
         }
     }
     @Test
-    void horseWithNegativeSpeedException() {
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class,
+    void constructor_negativeSpeedProvided_exceptionExpected() {
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new Horse("Horse", -20));
-        Assertions.assertEquals("Speed cannot be negative.", thrown.getMessage());
     }
     @Test
-    void horseWithNegativeDistanceException() {
-        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class,
+    void constructor_negativeSpeedProvided_correctExceptionMessageExpected() {
+        try {
+            new Horse("Horse", -20);
+        } catch (IllegalArgumentException thrown) {
+            Assertions.assertEquals("Speed cannot be negative.", thrown.getMessage());
+        }
+    }
+    @Test
+    void constructor_negativeDistanceProvided_exceptionExpected() {
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new Horse("Horse", 20, -20));
-        Assertions.assertEquals("Distance cannot be negative.", thrown.getMessage());
     }
     @Test
-    void getName() {
+    void constructor_negativeDistanceProvided_correctExceptionMessageExpected() {
+        try {
+            new Horse("Horse", 20, -20);
+        } catch (IllegalArgumentException thrown) {
+            Assertions.assertEquals("Distance cannot be negative.", thrown.getMessage());
+        }
+    }
+    @Test
+    void getName_correctNameProvided_theSameNameExpected() {
         String horseName = "Horse";
         int horseSpeed = 20;
         Horse horse = new Horse(horseName, horseSpeed);
         Assertions.assertEquals(horseName, horse.getName());
     }
     @Test
-    void getSpeed() {
+    void getSpeed_correctSpeedProvided_theSameSpeedExpected() {
         String horseName = "Horse";
         int horseSpeed = 20;
         Horse horse = new Horse(horseName, horseSpeed);
         Assertions.assertEquals(horseSpeed, horse.getSpeed());
     }
     @Test
-    void getDistanceWithoutSettingDistance() {
+    void getDistance_distanceDidntProvided_defaultDistanceSetupExpected() {
         String horseName = "Horse";
         int horseSpeed = 20;
         int horseDistance = 0;
@@ -78,7 +92,7 @@ public class HorseTest {
         Assertions.assertEquals(horseDistance, horse.getDistance());
     }
     @Test
-    void getDistanceWithSettingDistance() {
+    void getDistance_correctDistanceProvided_theSameDistanceSetupExpected() {
         String horseName = "Horse";
         int horseSpeed = 20;
         int horseDistance = 0;
@@ -86,7 +100,7 @@ public class HorseTest {
         Assertions.assertEquals(horseDistance, horse.getDistance());
     }
     @Test
-    void getRandomDoubleFromMoveMethod() {
+    void move_getRandomDoubleMethodInvoked() {
         try (MockedStatic<Horse> horseClass = Mockito.mockStatic(Horse.class)) {
             Horse horse = new  Horse("Horse", 20);
             horse.move();
@@ -96,7 +110,7 @@ public class HorseTest {
 
     @ParameterizedTest
     @ValueSource(doubles = {0.55})
-    void setCorrectDistanceInMoveMethod(double argument) {
+    void move_correctDistanceCalculationsExpected(double argument) {
         try (MockedStatic<Horse> horseClass = Mockito.mockStatic(Horse.class)) {
             horseClass.when(() -> Horse.getRandomDouble(0.2, 0.9)).thenReturn(argument);
             Horse horse = new  Horse("Horse", 20);
